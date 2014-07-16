@@ -6,6 +6,9 @@ var canvas,
     panel, 
     pause = false;
 
+var optionSelct = null,
+    nodeSelct = null;
+
 ///////////////////////////////////////////* main *////////////////////////////////////////////////
 
 function main(){
@@ -26,6 +29,8 @@ function main(){
         state.style.backgroundColor = (pause)? "red" : "green";
     
     });
+    
+    $("#canvas").click(canvasEvent);
     
     
     run();
@@ -75,10 +80,12 @@ function paint(){
     ctx.fillStyle = "#ba7f0b";
     ctx.fillRect(0, 0, map.sizeX*anch, map.sizeY*anch)
     
+    //dibuja el fondo del panel de opciones
+    ctx.fillStyle = "#cbcbcb";
+    ctx.fillRect(width-60, 0, width, height);
+    
     //se traza una cuadricula en el mapa
     var cont = 0;
-    
-    ctx.lineWidth = 2;
     for(posY = 0; posY < map.sizeY*anch;){
     
         for(posX = 0; posX < map.sizeX*anch;){
@@ -113,9 +120,40 @@ function paint(){
 ///////////////////////////////////////////* canvasEvent */////////////////////////////////////////
 
 function canvasEvent(evt){
-
-    var posX = 0,
-        posY = 0;
+    
+    console.log("canvasEvent");/////*********
+    
+    var rect = canvas.getBoundingClientRect();
+        
+    var posX = evt.clientX - rect.left,
+        posY = evt.clientY - rect.top;
+    
+    console.log("pos "+posX+" : "+posY);
+    
+    if(posX >= canvas.width-60){
+    
+        if(posY <  60){ optionSelct = "road"; }
+    
+    }
+    else{
+    
+        var x, y;
+        
+        for(var num = 0; x < map.sizeX; x++){
+        
+            if(posX > num*20 && posX < num*20+20){ x = num; break; }
+        
+        }
+        for(num = 0; y < map.sizeY; y++){
+            
+            if(posY > num*20 && posY < num*20+20){ y = num; break; }
+            
+        }
+        
+        console.log("posicion del nodo "+x+" : "+y);
+        nodeSelct = map.mtrz[x][y];
+    
+    }
 
 }
 
