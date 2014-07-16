@@ -6,7 +6,6 @@ function Node(x, y){
 
     this.pos = [ (x === null)? 0 : x, (y === null)? 0 : y ];
     this.image = null;
-    this.Zone = null;
     
     this.zone = null;
     
@@ -17,10 +16,12 @@ function Node(x, y){
         
             case "res":
                 this.zone = new Res();
+                this.zone.type = "res";
                 break;
                 
             case "com":
                 this.zone = new Com();
+                this.zone.
                 break;
                 
             case "ind":
@@ -38,6 +39,10 @@ function Node(x, y){
                 
             case "electFact":
                 this.zone = new electFact();
+                break;
+                
+            case "empty":
+                this.zone = null;
                 break;
                 
             default:
@@ -82,21 +87,21 @@ function Res(){
 
 }
 
-Res.prototype = Object.create(Zone.prototype);
+Res.prototype = Object.create(Zone);
 
 function Com(){
 
     this.jobs = 0;
 
 }
-Com.prototype = Object.create(Zone.prototype);
+Com.prototype = Object.create(Zone);
     
 function Ind(){
 
     this.jobs = 0;
 
 }
-Ind.prototype = Object.create(Zone.prototype);
+Ind.prototype = Object.create(Zone);
 
 function electFact(){
 
@@ -104,14 +109,14 @@ function electFact(){
     this.usage = 0;
 
 }
-electFact.prototype = Object.create(Zone.prototype);
+electFact.prototype = Object.create(Zone);
 
 function PoliceSt(){
 
     this.funds = 0;
 
 }
-PoliceSt.prototype = Object.create(Zone.prototype);
+PoliceSt.prototype = Object.create(Zone);
 
 function Road(){
 
@@ -120,7 +125,7 @@ function Road(){
     this.usage = 0;
 
 }
-Road.prototype = Object.create(Zone.prototype);
+Road.prototype = Object.create(Zone);
 
 ///////////////////////////////////////////* Panel */////////////////////////////////////////////// 
 
@@ -146,6 +151,32 @@ function Mapa(){
     this.sizeY = 0;
     
     this.mtrz = null;
+    
+    this.init = function(sizeX, sizeY){
+    
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
+        
+        this.mtrz = new Array(sizeX);
+        for(var x = 0; x < sizeY; x++){
+        
+            this.mtrz[x] = new Array(sizeY); 
+        
+        }//end for
+        
+        for(x = 0; x < sizeX; x++){
+        
+            for(var y = 0; y < sizeY; y++){
+            
+                var nod = new Node();
+                nod.init("empty");
+                this.mtrz[x][y] = nod;
+            
+            }
+        
+        }//end for
+    
+    }
 
 
 }

@@ -6,10 +6,15 @@ var canvas,
     panel, 
     pause = false;
 
+///////////////////////////////////////////* main *////////////////////////////////////////////////
+
 function main(){
     
     canvas = document.getElementById("canvas");
     ctx = canvas.getContext("2d");
+    
+    map = new Mapa();
+    map.init(20, 20);
     
     panel = new Panel();
     panel.init();
@@ -28,6 +33,8 @@ function main(){
     
 }
 
+///////////////////////////////////////////* run */////////////////////////////////////////////////
+
 function run(){
     
     
@@ -44,6 +51,7 @@ function repaint(){
     
 }
 
+///////////////////////////////////////////* act & repaint *///////////////////////////////////////
 
 function act(){
     
@@ -65,15 +73,15 @@ function paint(){
     
     //dibuja el terreno
     ctx.fillStyle = "#ba7f0b";
-    ctx.fillRect(0, 0, width-(anch*3), height)
+    ctx.fillRect(0, 0, map.sizeX*anch, map.sizeY*anch)
     
     //se traza una cuadricula en el mapa
     var cont = 0;
     
     ctx.lineWidth = 2;
-    for(posY = 0; posY < height;){
+    for(posY = 0; posY < map.sizeY*anch;){
     
-        for(posX = 0; posX < width-(anch*3);){
+        for(posX = 0; posX < map.sizeX*anch;){
         
             ctx.moveTo(posX,      posY, 1);
             ctx.lineTo(posX+anch, posY);
@@ -102,7 +110,14 @@ function paint(){
     
 }// paint
 
+///////////////////////////////////////////* canvasEvent */////////////////////////////////////////
 
+function canvasEvent(evt){
+
+    var posX = 0,
+        posY = 0;
+
+}
 
 
 
