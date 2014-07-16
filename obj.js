@@ -126,7 +126,14 @@ Road.prototype = Object.create(Zone.prototype);
 
 function Panel(){
 
+    this.img = null;
     
+    this.init = function(){
+    
+        this.img = new Image();
+        this.img.src = "Resource/road_ico.png";
+    
+    }
 
 
 }

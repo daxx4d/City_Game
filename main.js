@@ -1,30 +1,37 @@
 window.onload = main;
 
 var canvas,
-    ctx;
+    ctx,
+    img,
+    panel;
 
 function main(){
     
     canvas = document.getElementById("canvas");
     ctx = canvas.getContext("2d");
     
-    //run();
+    panel = new Panel();
+    panel.init();
+    
+    
+    run();
     repaint();
     
 }
 
 function run(){
     
+    
     setTimeout(run,50);
     act();
-    paint(ctx);
+    paint();
     
 }
 
 function repaint(){
     
-    //requestAnimationFrame(repaint);
-    paint(ctx);
+    requestAnimationFrame(repaint);
+    paint();
     
 }
 
@@ -35,7 +42,7 @@ function act(){
     
 }// act
 
-function paint(ctx){
+function paint(){
     
     var width = canvas.width,
         height = canvas.height,
@@ -76,6 +83,9 @@ function paint(ctx){
     }
     ctx.strokeStyle = "#000";
     ctx.stroke();
+    
+    //se dibuja el panel de opciones
+    ctx.drawImage(panel.img, width-(anch*3), 0, width-( width-(anch*3) ),  width-( width-(anch*3) ) ); 
     
 }// paint
 
