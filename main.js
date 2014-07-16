@@ -2,8 +2,9 @@ window.onload = main;
 
 var canvas,
     ctx,
-    img,
-    panel;
+    map,
+    panel, 
+    pause = false;
 
 function main(){
     
@@ -12,6 +13,14 @@ function main(){
     
     panel = new Panel();
     panel.init();
+    
+    $("#pause").click(function(){
+    
+        pause = !pause;
+        var state = document.getElementById("state");
+        state.style.backgroundColor = (pause)? "red" : "green";
+    
+    });
     
     
     run();
@@ -38,11 +47,14 @@ function repaint(){
 
 function act(){
     
+    if(pause){ return; }
     
     
 }// act
 
 function paint(){
+    
+    if(pause){ return; }
     
     var width = canvas.width,
         height = canvas.height,
@@ -58,11 +70,12 @@ function paint(){
     //se traza una cuadricula en el mapa
     var cont = 0;
     
+    ctx.lineWidth = 2;
     for(posY = 0; posY < height;){
     
         for(posX = 0; posX < width-(anch*3);){
         
-            ctx.moveTo(posX,      posY);
+            ctx.moveTo(posX,      posY, 1);
             ctx.lineTo(posX+anch, posY);
             ctx.lineTo(posX+anch, posY+anch);
             ctx.lineTo(posX,      posY+anch);

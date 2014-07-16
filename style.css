@@ -1,6 +1,30 @@
 #canvas{
 
+    float:left;
     border:2px solid black;
+
+}
+
+#pause{
+
+    float:left;
+    width:80px;
+    height:45px;
+    border:none;
+    
+    background-color:#ddd;
+    color:white;
+
+}
+
+#state{
+
+    float:left;
+    width:60px;
+    height:60px;
+    border:none;
+        
+    background-color:green;
 
 }
 
