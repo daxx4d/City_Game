@@ -106,7 +106,6 @@ function act(){
         }//end switch
         
         nodeSelct = null;
-        optionSelct = null;
     
     }//end if
     
@@ -161,7 +160,23 @@ function paint(){
     ctx.stroke();
     
     //se dibuja el panel de opciones
-    ctx.drawImage(panel.img, width-(anch*3), 0, width-( width-(anch*3) ),  width-( width-(anch*3) ) ); 
+    ctx.drawImage(panel.img, width-(anch*3), 0, width-( width-(anch*3) ),  width-( width-(anch*3) ) );
+    
+    //se dibuja los lementos del mapas
+    for(x = 0; x < map.sizeX; x++){
+    
+        for(y = 0; y < map.sizeY; y++){
+        
+            if(map.mtrz[x][y].zone.type === "empty"){ continue; }
+            
+            console.info("posss "+x+" : "+y);
+            var nod = map.mtrz[x][y];
+            console.warn("se dibujo kla imagen");
+            ctx.drawImage(nod.image, x*anch, y*anch, anch, anch);
+            
+        }
+    
+    }
     
 }// paint
 

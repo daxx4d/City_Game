@@ -64,9 +64,10 @@ function Node(x, y){
     
         if(path !== undefined){
             
-            console.log(path);
+            console.log("cragando imagen.. : "+path);
             var img = new Image();
             img.src = path;
+            this.image = img;
             
         }
     
