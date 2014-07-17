@@ -42,7 +42,6 @@ function main(){
 
 function run(){
     
-    
     setTimeout(run,50);
     act();
     paint();
@@ -61,6 +60,55 @@ function repaint(){
 function act(){
     
     if(pause){ return; }
+    
+    if( optionSelct !== null && nodeSelct !== null ){
+    
+        var type = nodeSelct.zone.type
+        switch(optionSelct){
+        
+            case "road":
+                if(type === "empty"){
+                
+                    nodeSelct.init("road");
+                
+                }
+                break;
+                
+            case "res":
+                
+                break;
+                
+            case "com":
+                
+                break;
+                
+            case "ind":
+                
+                break;
+                
+            case "policeSt":
+                
+                break;
+                
+            case "electFact":
+                
+                break;
+                
+            case "empty":
+                
+                break;
+                
+            default:
+                console.error("tipo de zona no encontrado "+nodeSelct.zone.type);
+                break;
+        
+        
+        }//end switch
+        
+        nodeSelct = null;
+        optionSelct = null;
+    
+    }//end if
     
     
 }// act
@@ -118,45 +166,6 @@ function paint(){
 }// paint
 
 ///////////////////////////////////////////* canvasEvent */////////////////////////////////////////
-
-function canvasEvent(evt){
-    
-    console.log("canvasEvent");/////*********
-    
-    var rect = canvas.getBoundingClientRect();
-        
-    var posX = evt.clientX - rect.left,
-        posY = evt.clientY - rect.top;
-    
-    console.log("pos "+posX+" : "+posY);
-    
-    if(posX >= canvas.width-60){
-    
-        if(posY <  60){ optionSelct = "road"; }
-    
-    }
-    else{
-    
-        var x, y;
-        
-        for(var num = 0; x < map.sizeX; x++){
-        
-            if(posX > num*20 && posX < num*20+20){ x = num; break; }
-        
-        }
-        for(num = 0; y < map.sizeY; y++){
-            
-            if(posY > num*20 && posY < num*20+20){ y = num; break; }
-            
-        }
-        
-        console.log("posicion del nodo "+x+" : "+y);
-        nodeSelct = map.mtrz[x][y];
-    
-    }
-
-}
-
 
 
 

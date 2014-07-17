@@ -4,12 +4,12 @@
 
 function Node(x, y){
 
-    this.pos = [ (x === null)? 0 : x, (y === null)? 0 : y ];
+    this.pos = null;
     this.image = null;
     
     this.zone = null;
     
-    this.init = function(type){
+    this.init = function(type, x, y){
     
         var path;
         switch(type){
@@ -21,7 +21,7 @@ function Node(x, y){
                 
             case "com":
                 this.zone = new Com();
-                this.zone.
+                
                 break;
                 
             case "ind":
@@ -30,7 +30,7 @@ function Node(x, y){
                 
             case "road":
                 this.zone = new Road();
-                path = "Borradores/simple_Road.jpg";
+                path = "Resource/simple_road.png";
                 break;
                 
             case "policeSt":
@@ -42,7 +42,8 @@ function Node(x, y){
                 break;
                 
             case "empty":
-                this.zone = null;
+                this.zone = new Zone();
+                this.zone.type = "empty";
                 break;
                 
             default:
@@ -52,14 +53,22 @@ function Node(x, y){
         
         }
         
-    
+        this.pos = (x === undefined || y === undefined)? this.pos : [x, y];
+        
+        
+        this.loadImage(path); 
     
     }
     
     this.loadImage = function(path){
     
-        var img = new Image();
-        img.src = path;
+        if(path !== undefined){
+            
+            console.log(path);
+            var img = new Image();
+            img.src = path;
+            
+        }
     
     }
     
@@ -169,7 +178,7 @@ function Mapa(){
             for(var y = 0; y < sizeY; y++){
             
                 var nod = new Node();
-                nod.init("empty");
+                nod.init("empty", x, y);
                 this.mtrz[x][y] = nod;
             
             }
