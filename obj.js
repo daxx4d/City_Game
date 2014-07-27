@@ -30,7 +30,7 @@ function Node(x, y){
                 
             case "road":
                 this.zone = new Road();
-                path = "Resource/simple_road.png";
+                path = this.zone.imgCheck(this.pos);
                 break;
                 
             case "policeSt":
@@ -54,7 +54,6 @@ function Node(x, y){
         }
         
         this.pos = (x === undefined || y === undefined)? this.pos : [x, y];
-        
         
         this.loadImage(path); 
     
@@ -133,6 +132,65 @@ function Road(){
     this.traffic = 0;
     this.maxUsage = 1000;
     this.usage = 0;
+    
+    this.imgCheck = function(pos){
+    
+        var adyctConec = [false, false, false, false];
+        var cont = 0;
+        
+        var adyctPos = [ [ pos[0], pos[1]-1 ], [ pos[0]+1, pos[1] ], [ pos[0], pos[1]+1 ], [ pos[0]-1, pos[1] ] ];
+        
+        for(var x = 0; x < 4;x++){
+        
+            var nod = map.mtrz[ adyctPos[x][0] ][ adyctPos[x][1] ];
+            
+            if(nod.zone.type === "road"){
+            
+                adyctConec[x] = true;
+                cont++;
+            
+            }
+            
+        }//end for
+        
+        var path = null;
+        switch(cont){
+        
+            case 0:
+                path = "Resource/simple_road.png";
+                break;
+                
+            case 1:
+                path = "Resource/simple_road.png";
+                break;
+                
+            case 2:
+                if( ( adyctConec[1] && adyctConec[3] ) || ( adyctConec[2] && adyctConec[4] ) ){
+                
+                    path = "Resource/simple_road.png"; 
+            
+                }
+                else{ path = "Resource/curva.png"; }
+                break
+                
+            case 3:
+                path = "Resource/cruce.png";
+                break;
+                
+            case 4:
+                path = "Resource/cruce.png";
+                break;
+        
+            default:
+                console.warn("Opcion no encontrada, se utilizara la opcion por defecto 'imgCheck()' "+ this);
+                path = "Resource/simple_road.png";
+                break;
+        
+        }//end switch
+        
+        return path;
+    
+    }//end this.check
 
 }
 Road.prototype = Object.create(Zone);
