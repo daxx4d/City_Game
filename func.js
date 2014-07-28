@@ -38,9 +38,31 @@ function canvasEvent(evt){
 
 }
 
+function drawImageR(context, image, x, y, anch, angle){
+    
+    var w_half = image.width/2;
+    var h_half = image.height/2;
 
+    context.save();
+    context.translate(x,y);
+    context.rotate(angle*Math.PI/180);
+    context.drawImage(image, -w_half+20, -h_half, anch, anch);
+    context.restore(); 
 
+}
 
+/*function drawImageR(context, image, x, y, anch, angle){
+    
+    var w_half = image.width/2;
+    var h_half = image.height/2;
+
+    context.save();
+    context.translate(x + w_half, y + h_half);
+    context.rotate(angle*Math.PI/180);
+    context.drawImage(image, -w_half, -h_half, anch, anch);
+    context.restore(); 
+
+}*/
 
 
 

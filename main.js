@@ -169,10 +169,13 @@ function paint(){
         
             if(map.mtrz[x][y].zone.type === "empty"){ continue; }
             
-            console.info("posss "+x+" : "+y);
             var nod = map.mtrz[x][y];
-            console.warn("se dibujo kla imagen");
-            ctx.drawImage(nod.image, x*anch, y*anch, anch, anch);
+            if( nod.imgAngl === 0 ){
+            
+                ctx.drawImage(nod.image, x*anch, y*anch, anch, anch);
+                
+            }
+            else{ drawImageR(ctx, nod.image, x*anch, y*anch, anch, nod.imgAngl); }
             
         }
     

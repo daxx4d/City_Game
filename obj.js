@@ -6,6 +6,7 @@ function Node(x, y){
 
     this.pos = null;
     this.image = null;
+    this.imgAngl = 0;
     
     this.zone = null;
     
@@ -30,7 +31,11 @@ function Node(x, y){
                 
             case "road":
                 this.zone = new Road();
-                path = this.zone.imgCheck(this.pos);
+                this.zone.type = "road";
+                
+                var dat = this.zone.imgCheck(this.pos);
+                path = dat[0];
+                this.imgAngl = dat[1];
                 break;
                 
             case "policeSt":
@@ -127,6 +132,8 @@ function PoliceSt(){
 }
 PoliceSt.prototype = Object.create(Zone);
 
+///////////////////////////////////////////* Road */////////////////////////////////////////////// 
+
 function Road(){
 
     this.traffic = 0;
@@ -135,8 +142,10 @@ function Road(){
     
     this.imgCheck = function(pos){
     
-        var adyctConec = [false, false, false, false];
-        var cont = 0;
+        var adyctConec = [false, false, false, false],
+            cont = 0,
+            angl = 0;
+        
         
         var adyctPos = [ [ pos[0], pos[1]-1 ], [ pos[0]+1, pos[1] ], [ pos[0], pos[1]+1 ], [ pos[0]-1, pos[1] ] ];
         
@@ -165,10 +174,16 @@ function Road(){
                 break;
                 
             case 2:
-                if( ( adyctConec[1] && adyctConec[3] ) || ( adyctConec[2] && adyctConec[4] ) ){
+                if( adyctConec[0] && adyctConec[2] ){
                 
                     path = "Resource/simple_road.png"; 
             
+                }
+                else if( adyctConec[1] && adyctConec[3] ){
+                
+                    path = "Resource/simple_road.png"; 
+                    angl = 90;
+                
                 }
                 else{ path = "Resource/curva.png"; }
                 break
@@ -188,12 +203,12 @@ function Road(){
         
         }//end switch
         
-        return path;
+        return [path, angl];
     
     }//end this.check
 
 }
-Road.prototype = Object.create(Zone);
+Road.prototype = new Zone();
 
 ///////////////////////////////////////////* Panel */////////////////////////////////////////////// 
 
