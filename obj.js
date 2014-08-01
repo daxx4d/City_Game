@@ -5,7 +5,7 @@
 function Node(x, y){
 
     this.pos = null;
-    this.image = null;
+    this.image = new Image();
     this.imgAngl = 0;
     
     this.zone = null;
@@ -140,18 +140,21 @@ function Road(){
     this.maxUsage = 1000;
     this.usage = 0;
     
-    this.imgCheck = function(pos){
+    //pos : las coordenadas del nodo actual; repeat : si es true se llamar a esta funcion de los nodo adyacentes
+    this.imgCheck = function(pos, repeat){
     
         var adyctConec = [false, false, false, false],
             cont = 0,
-            angl = 0;
-        
+            angl = 0,
+            nod = null;
         
         var adyctPos = [ [ pos[0], pos[1]-1 ], [ pos[0]+1, pos[1] ], [ pos[0], pos[1]+1 ], [ pos[0]-1, pos[1] ] ];
         
+        repeat = (repeat === undefined)? true : repeat;
+        
         for(var x = 0; x < 4;x++){
         
-            var nod = map.mtrz[ adyctPos[x][0] ][ adyctPos[x][1] ];
+            nod = map.mtrz[ adyctPos[x][0] ][ adyctPos[x][1] ];
             
             if(nod.zone.type === "road"){
             
@@ -162,7 +165,8 @@ function Road(){
             
         }//end for
         
-        var path = null;
+        var path = null,
+            dat;
         switch(cont){
         
             case 0:
@@ -171,21 +175,106 @@ function Road(){
                 
             case 1:
                 path = "Resource/simple_road.png";
+                
+                //se revisa la imgen del nodoadyacente cambia en ese caso se haran los cambios necesarios
+                if(adyctConec[0] && repeat){
+                    
+                    nod = map.mtrz[ pos[0] ][ pos[1]-1 ];
+                    dat = nod.zone.imgCheck( map.mtrz[ pos[0] ][ pos[1]-1 ].pos, false );
+                    
+                    nod.loadImage(dat[0]);
+                    nod.imgAngl = dat[1];
+                
+                }
+                
+                else if(adyctConec[1]){
+                
+                    angl = 90;
+                    
+                    if(repeat){
+                        
+                        nod = map.mtrz[ pos[0]+1 ][ pos[1] ];
+                        dat = nod.zone.imgCheck( map.mtrz[ pos[0]+1 ][ pos[1] ].pos, false );
+                            
+                        nod.loadImage(dat[0]);
+                        nod.imgAngl = dat[1];
+                        
+                    }
+                    
+                }
+                
+                else if(adyctConec[2] && repeat){
+                    
+                    nod = map.mtrz[ pos[0] ][ pos[1]+1 ];
+                    dat = nod.zone.imgCheck( map.mtrz[ pos[0] ][ pos[1]+1 ].pos, false );
+                            
+                    nod.loadImage(dat[0]);
+                    nod.imgAngl = dat[1];
+                
+                }
+                
+                else if(adyctConec[3]){
+                
+                    angl = 90;
+                    
+                    if(repeat){
+                        
+                        nod = map.mtrz[ pos[0]-1 ][ pos[1] ];
+                        dat = nod.zone.imgCheck( map.mtrz[ pos[0]-1 ][ pos[1] ].pos, false );
+                            
+                        nod.loadImage(dat[0]);
+                        nod.imgAngl = dat[1];
+                        
+                    }
+                
+                }
+                
                 break;
                 
             case 2:
-                if( adyctConec[0] && adyctConec[2] ){
+                path = "Resource/simple_road.png"; 
                 
-                    path = "Resource/simple_road.png"; 
-            
+                if( adyctConec[0] && adyctConec[2] && repeat){
+                
+                    //se revisa la imagen de los nodos adyacentess
+                    nod = map.mtrz[ pos[0] ][ pos[1]-1 ];
+                    dat = nod.zone.imgCheck( map.mtrz[ pos[0] ][ pos[1]-1 ].pos, false );
+                            
+                    nod.loadImage(dat[0]);
+                    nod.imgAngl = dat[1];
+                    
+                    //se revisa la imagen de los nodos adyacentess
+                    nod = map.mtrz[ pos[0] ][ pos[1]+1 ];
+                    dat = nod.zone.imgCheck( map.mtrz[ pos[0] ][ pos[1]+1 ].pos, false );
+                            
+                    nod.loadImage(dat[0]);
+                    nod.imgAngl = dat[1];
+                    
                 }
                 else if( adyctConec[1] && adyctConec[3] ){
                 
-                    path = "Resource/simple_road.png"; 
                     angl = 90;
-                
+                    
+                    if(repeat){
+                        
+                        //se revisa la imagen de los nodos adyacentess
+                        nod = map.mtrz[ pos[0]+1 ][ pos[1] ];
+                        dat = nod.zone.imgCheck( map.mtrz[ pos[0]+1 ][ pos[1] ].pos, false );
+                            
+                        nod.loadImage(dat[0]);
+                        nod.imgAngl = dat[1];
+                        
+                        //se revisa la imagen de los nodos adyacentess
+                        nod = map.mtrz[ pos[0]-1 ][ pos[1] ];
+                        dat = nod.zone.imgCheck( map.mtrz[ pos[0]-1 ][ pos[1] ].pos, false );
+                            
+                        nod.loadImage(dat[0]);
+                        nod.imgAngl = dat[1];
+                        
+                    }    
+                    
                 }
-                else{ path = "Resource/curva.png"; }
+                //else{ path = "Resource/curva.png"; }
                 break
                 
             case 3:
